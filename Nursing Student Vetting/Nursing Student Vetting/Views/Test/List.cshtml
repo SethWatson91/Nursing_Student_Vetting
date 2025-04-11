@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Nursing_Student_Vetting.Models.Test>
+
+@{
+    ViewData["Title"] = "Test List";
+}
+
+<h1>Exam List</h1>
+
+<p>
+    <a asp-action="Update">Create New Test</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TestID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GradingScale)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var testItem in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => testItem.TestID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => testItem.TestName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => testItem.GradingScale)
+                </td>
+                <td>
+                    <a asp-action="Update" asp-route-id="@testItem.TestID" class="btn btn-sm btn-primary">Edit</a> |
+                    <form asp-action="Delete" asp-route-id="@testItem.TestID" method="post" onsubmit="return confirm('Are you sure you want to delete @testItem.TestName?');" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    string userMessage = TempData?["UserMessage"]?.ToString() ?? "";
+}
+@if (userMessage != "")
+{
+    <div class="text-success">@userMessage</div>
+}

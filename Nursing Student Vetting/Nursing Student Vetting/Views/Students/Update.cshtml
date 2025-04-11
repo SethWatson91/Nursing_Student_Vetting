@@ -1,0 +1,65 @@
+﻿@model Nursing_Student_Vetting.Models.Student
+
+@{
+    ViewData["Title"] = Model.StudentID == "" ? "Add Student" : "Edit Student";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Update" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="StudentID" class="control-label"></label>
+        <input asp-for="StudentID" class="form-control" />
+        <span asp-validation-for="StudentID" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="FirstName" class="control-label"></label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName" class="control-label"></label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address" class="control-label"></label>
+        <input asp-for="Address" class="form-control" />
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="DateOfBirth" class="control-label"></label>
+        <input asp-for="DateOfBirth" type="date" class="form-control" />
+        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Gender" class="control-label"></label>
+        <input asp-for="Gender" class="form-control" />
+        <span asp-validation-for="Gender" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="StartDate" class="control-label"></label>
+        <input asp-for="StartDate" type="date" class="form-control" />
+        <span asp-validation-for="StartDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EvaluationScore" class="control-label"></label>
+        <input asp-for="EvaluationScore" type="number" class="form-control" />
+        <span asp-validation-for="EvaluationScore" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="@(Model.StudentID == "" ? "Add Student" : "Update Student")" class="btn btn-primary" />
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

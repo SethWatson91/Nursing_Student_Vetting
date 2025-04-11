@@ -1,0 +1,40 @@
+@model Nursing_Student_Vetting.Models.Class
+
+@{
+    ViewData["Title"] = Model.ClassID == 0 ? "Add Class" : "Edit Class";
+    Layout = "_Layout";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Update" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="ClassID" class="control-label"></label>
+        <input asp-for="ClassID" class="form-control" />
+        <span asp-validation-for="ClassID" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ClassName" class="control-label"></label>
+        <input asp-for="ClassName" class="form-control" />
+        <span asp-validation-for="ClassName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CreditHours" class="control-label"></label>
+        <input asp-for="CreditHours" class="form-control" />
+        <span asp-validation-for="CreditHours" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CategoryPrefix" class="control-label"></label>
+        <input asp-for="CategoryPrefix" class="form-control" />
+        <span asp-validation-for="CategoryPrefix" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="IsRequired" class="control-label"></label>
+        <input asp-for="IsRequired" type="checkbox" class="form-check-input" />
+        <span asp-validation-for="IsRequired" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="@(Model.ClassID == 0 ? "Add Class" : "Update Class")" class="btn btn-primary" />
+    </div>
+</form>

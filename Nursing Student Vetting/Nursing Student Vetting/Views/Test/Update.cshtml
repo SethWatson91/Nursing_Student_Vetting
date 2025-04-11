@@ -1,0 +1,27 @@
+﻿@model Nursing_Student_Vetting.Models.Test
+
+@{
+    ViewData["Title"] = Model.TestID == 0 ? "Add Test" : "Edit Test";
+    Layout = "_Layout";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Update" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="TestID" />
+
+    <div class="form-group">
+        <label asp-for="TestName" class="control-label"></label>
+        <input asp-for="TestName" class="form-control" />
+        <span asp-validation-for="TestName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="GradingScale" class="control-label"></label>
+        <input asp-for="GradingScale" class="form-control" />
+        <span asp-validation-for="GradingScale" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="@(Model.TestID == 0 ? "Add Test" : "Update Test")" class="btn btn-primary" />
+    </div>
+</form>

@@ -1,0 +1,54 @@
+﻿@model Nursing_Student_Vetting.Models.StudentClass
+
+@{
+    ViewData["Title"] = "Update Class Association";
+}
+
+<h1>Update Class Association</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Update">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="StudentID" />
+
+            <div class="form-group">
+                <label asp-for="StudentID" class="control-label"></label>
+                <input asp-for="StudentID" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label asp-for="ClassID" class="control-label">Class ID</label>
+                <select asp-for="ClassID" asp-items="@(new SelectList(ViewBag.Classes, "ClassID", "DisplayText"))" class="form-control">
+                    <option value="">Select Class</option>
+                </select>
+                <span asp-validation-for="ClassID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryPrefix" class="control-label"></label>
+                <select asp-for="CategoryPrefix" asp-items="@(new SelectList(ViewBag.CategoryPrefixes))" class="form-control">
+                    <option value="">Select Category Prefix</option>
+                </select>
+                <span asp-validation-for="CategoryPrefix" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LetterGrade" class="control-label"></label>
+                <input asp-for="LetterGrade" class="form-control" />
+                <span asp-validation-for="LetterGrade" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Student" asp-action="Details" asp-route-id="@Model.StudentID">Back to Student Details</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

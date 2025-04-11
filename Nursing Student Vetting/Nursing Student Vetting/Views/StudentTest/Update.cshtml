@@ -1,0 +1,52 @@
+﻿@model Nursing_Student_Vetting.Models.StudentTest
+
+@{
+    ViewData["Title"] = "Update Test Association";
+}
+
+<h1>Update Test Association</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Update">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="StudentID" />
+
+            <div class="form-group">
+                <label asp-for="StudentID" class="control-label"></label>
+                <input asp-for="StudentID" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label asp-for="TestID" class="control-label">Test</label>
+                <select asp-for="TestID" asp-items="@(new SelectList(ViewBag.Tests, "TestID", "TestName"))" class="form-control">
+                    <option value="">Select Test</option>
+                </select>
+                <span asp-validation-for="TestID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AttemptNumber" class="control-label"></label>
+                <input asp-for="AttemptNumber" class="form-control"/>
+                <span asp-validation-for="AttemptNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Score" class="control-label"></label>
+                <input asp-for="Score" class="form-control" />
+                <span asp-validation-for="Score" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Student" asp-action="Details" asp-route-id="@Model.StudentID">Back to Student Details</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

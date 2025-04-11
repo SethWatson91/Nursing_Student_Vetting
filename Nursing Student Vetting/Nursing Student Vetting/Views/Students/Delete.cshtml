@@ -1,0 +1,24 @@
+﻿@model Nursing_Student_Vetting.Models.Student
+
+@{
+    ViewData["Title"] = "Delete Item";
+}
+
+<h1>Delete Item</h1>
+
+<h3>Are you sure you want to delete this Student?</h3>
+<div>
+    <h4>@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)
+        </dt>
+    </dl>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" name="id" value="@Model.StudentID" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="List" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

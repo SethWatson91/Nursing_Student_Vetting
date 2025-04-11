@@ -1,0 +1,81 @@
+﻿@model IEnumerable<Nursing_Student_Vetting.Models.Student>
+
+@{
+
+    ViewData["Title"] = "Student List";
+    var sortOrder = ViewData["CurrentSort"] as string;
+    var nameSortParam = sortOrder == "Name" ? "name_desc" : "Name";
+    var idSortParam = sortOrder == "Id" ? "id_desc" : "Id";
+    var evalSortParam = sortOrder == "evaluationscore" ? "eval_ascen" : "evaluationscore";
+}
+
+<h1>Student List</h1>
+
+<p>
+    <a asp-action="Update" class="btn btn-primary">Create New Student</a>
+</p>
+
+
+<form method="get" asp-action="List">
+    <div class="form-group">
+        <input type="text" name="searchString" class="form-control" 
+            placeholder="Search Students..." value="@ViewData["CurrentFilter"]" />
+        <button type="submit" class="btn btn-primary mt-2">Search</button>
+    </div>
+</form>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="col-2">
+                    <a asp-action="List" asp-route-sortOrder="@idSortParam">Student ID</a>
+                </th>
+                <th class="col">
+                    <a asp-action="List" asp-route-sortOrder="@nameSortParam">Name</a>
+                </th>
+                <th class="col-3">
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th class="col-2">
+                    <a asp-action="List" asp-route-sortOrder="@evalSortParam">Evaluation Score</a>
+                </th>
+                <th class="col-3 text-nowrap"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var student in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => student.StudentID)
+                    </td>
+                    <td class="text-nowrap">
+                        <a asp-action="Details" asp-route-id="@student.StudentID">@Html.DisplayFor(modelItem => student.LastName), @Html.DisplayFor(modelItem => student.FirstName)</a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => student.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => student.EvaluationScore)
+                    </td>
+                    <td class="text-nowrap">
+                        <a asp-action="Update" asp-route-id="@student.StudentID" class="btn btn-sm btn-primary">Edit</a> |
+                        <form asp-action="Delete" asp-route-id="@student.StudentID" method="post" onsubmit="return confirm('Are you sure you want to delete @student.FirstName @student.LastName?');" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@{
+    string userMessage = TempData?["UserMessage"]?.ToString() ?? "";
+}
+@if (userMessage != "")
+{
+    <div class="text-success">@userMessage</div>
+}

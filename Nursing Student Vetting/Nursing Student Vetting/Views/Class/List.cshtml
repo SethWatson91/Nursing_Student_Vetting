@@ -1,0 +1,70 @@
+@model IEnumerable<Nursing_Student_Vetting.Models.Class>
+
+@{
+ViewData["Title"] = "Class List";
+}
+
+<h1>Class List</h1>
+
+<p>
+    <button asp-action="Update" class="btn btn-sm btn-primary">Create New Class</button>
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoryPrefix)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ClassID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ClassName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreditHours)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsRequired)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var classItem in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => classItem.CategoryPrefix)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => classItem.ClassID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => classItem.ClassName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => classItem.CreditHours)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => classItem.IsRequired)
+        </td>
+        <td>
+                    <a asp-action="Update" asp-route-classId="@classItem.ClassID" asp-route-id="@classItem.CategoryPrefix" class="btn btn-sm btn-primary">Edit</a> |
+                    <form asp-action="Delete" asp-route-classId="@classItem.ClassID" asp-route-id="@classItem.CategoryPrefix" method="post" onsubmit="return confirm('Are you sure you want to delete @classItem.ClassName?');" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+        </td>
+    </tr>
+    }
+    </tbody>
+</table>
+
+@{
+string userMessage = TempData?["UserMessage"]?.ToString() ?? "";
+}
+@if (userMessage != "")
+{
+<div class="text-success">@userMessage</div>
+}

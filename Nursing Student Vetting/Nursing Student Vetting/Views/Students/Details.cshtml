@@ -1,0 +1,229 @@
+﻿@model Nursing_Student_Vetting.Models.Student
+
+@{
+    ViewData["Title"] = "Student Details";
+}
+
+<h1>Student Details</h1>
+
+@*Student Information*@
+<div>
+    <h4>@Model.FirstName @Model.LastName</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.StudentID)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.StudentID)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.FirstName)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.FirstName)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.LastName)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.LastName)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Email)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Email)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.EvaluationScore)</dt>
+        <dd class="col-sm-10">@(ViewBag.EvaluationScore)</dd>
+        <dt class="col-sm-2">GPA</dt>
+        <dd class="col-sm-10">@(ViewBag.GPA)</dd>
+        <dt class="col-sm-2">Prequesits</dt>
+        <dd class="col-sm-10">@(ViewBag.RequirementsComplete ? "Completed" : "Not Completed")</dd>
+    </dl>
+</div>
+
+<!-- Tab navigation -->
+<ul class="nav nav-tabs mt-3" id="studentTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="classes-tab" data-bs-toggle="tab"
+                data-bs-target="#studentClasses" type="button" role="tab"
+                aria-controls="studentClasses" aria-selected="true">
+            Classes
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tests-tab" data-bs-toggle="tab"
+                data-bs-target="#studentTests" type="button" role="tab"
+                aria-controls="studentTests" aria-selected="false">
+            Tests
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="required-tab" data-bs-toggle="tab"
+                data-bs-target="#studentRequiredClasses" type="button" role="tab"
+                aria-controls="studentRequiredClasses" aria-selected="false">
+            Required Classes
+        </button>
+    </li>
+</ul>
+
+<!-- Tab content -->
+<div class="tab-content mt-3" id="studentTabContent">
+    @* Classes Tab *@
+    <div class="tab-pane fade show active" id="studentClasses" role="tabpanel"
+         aria-labelledby="classes-tab">
+        <h5>Classes</h5>
+        @if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+        {
+            <div class="mt-3">
+                <a asp-controller="StudentClass" asp-action="Update"
+                   asp-route-studentId="@Model.StudentID" class="btn btn-primary">Add Class</a>
+            </div>
+        }
+
+        @if (Model.StudentClasses != null && Model.StudentClasses.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Category Prefix</th>
+                            <th>Class Number</th>
+                            <th>Class Name</th>
+                            <th>Letter Grade</th>
+                            @if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+                            {
+                                <th>Actions</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var studentClass in Model.StudentClasses)
+                        {
+                            <tr>
+                                <td>@studentClass.Class.CategoryPrefix</td>
+                                <td>@studentClass.Class.ClassID</td>
+                                <td>@studentClass.Class.ClassName</td>
+                                <td>@studentClass.LetterGrade</td>
+                                @if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+                                {
+                                    <td class="text-nowrap">
+                                        <a asp-controller="StudentClass" asp-action="Update"
+                                           asp-route-studentId="@studentClass.StudentID"
+                                           asp-route-classId="@studentClass.ClassID"
+                                           asp-route-categoryPrefix="@studentClass.CategoryPrefix"
+                                           class="btn btn-sm btn-primary">Edit</a> |
+                                        <form asp-controller="StudentClass" asp-action="Delete"
+                                              asp-route-studentId="@studentClass.StudentID"
+                                              asp-route-classId="@studentClass.ClassID"
+                                              asp-route-categoryPrefix="@studentClass.CategoryPrefix"
+                                              method="post"
+                                              onsubmit="return confirm('Are you sure you want to delete @studentClass.Class?.ClassName for @Model.FirstName @Model.LastName?');"
+                                              style="display:inline;">
+                                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                        </form>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p>No classes found for this student.</p>
+        }
+    </div>
+    @*Tests Tab*@
+    <div class="tab-pane fade" id="studentTests" role="tabpanel"
+         aria-labelledby="tests-tab">
+        <h5>Tests</h5>
+        @if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+        {
+            <div class="mt-3">
+                <a asp-controller="StudentTest" asp-action="Update"
+                   asp-route-studentId="@Model.StudentID" class="btn btn-primary">Add Test</a>
+            </div>
+        }
+        @if (Model.StudentTests != null && Model.StudentTests.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Test Name</th>
+                            <th>Attempt Number</th>
+                            <th>Score</th>
+                            @if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+                            {
+                                <th>Actions</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var studentTest in Model.StudentTests)
+                        {
+                            <tr>
+                                <td>@studentTest.Test?.TestName</td>
+                                <td>@studentTest.AttemptNumber</td>
+                                <td>@studentTest.Score</td>
+                                @if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+                                {
+                                    <td class="text-nowrap">
+                                        <a asp-controller="StudentTest" asp-action="Update"
+                                           asp-route-studentId="@studentTest.StudentID"
+                                           asp-route-testId="@studentTest.TestID"
+                                           asp-route-attemptNumber="@studentTest.AttemptNumber"
+                                           class="btn btn-sm btn-primary">Edit</a> |
+                                        <form asp-controller="StudentTest" asp-action="Delete"
+                                              asp-route-studentId="@studentTest.StudentID"
+                                              asp-route-testId="@studentTest.TestID"
+                                              asp-route-attemptNumber="@studentTest.AttemptNumber"
+                                              method="post"
+                                              onsubmit="return confirm('Are you sure you want to delete @studentTest.Test?.TestName (Attempt #@studentTest.AttemptNumber) for @Model.FirstName @Model.LastName?');"
+                                              style="display:inline;">
+                                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                        </form>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p>No tests found for this student.</p>
+        }
+    </div>
+    @*Required Classes Tab*@
+    <div class="tab-pane fade" id="studentRequiredClasses" role="tabpanel"
+         aria-labelledby="required-tab">
+        <h5>Required Classes</h5>
+        @{
+            var requiredClasses = ViewBag.RequiredClasses as IEnumerable<dynamic>;
+            if (requiredClasses != null && requiredClasses.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Category Prefix</th>
+                                <th>Class Number</th>
+                                <th>Class Name</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var requiredClass in requiredClasses)
+                            {
+                                var isCompleted = Model.StudentClasses?.Any(sc =>
+                                sc.Class.CategoryPrefix == requiredClass.CategoryPrefix &&
+                                sc.Class.ClassID == requiredClass.ClassID &&
+                                !string.IsNullOrEmpty(sc.LetterGrade)) ?? false;
+                                <tr>
+                                    <td>@requiredClass.CategoryPrefix</td>
+                                    <td>@requiredClass.ClassID</td>
+                                    <td>@requiredClass.ClassName</td>
+                                    <td>@(isCompleted ? "Completed" : "Not Completed")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <p>No required classes defined.</p>
+            }
+        }
+    </div>
+</div>
