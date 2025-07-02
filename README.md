@@ -52,8 +52,8 @@ The **Nursing Student Vetting App** allows nursing program administrators to eff
 ### Setup
 
 ```bash
-git clone https://github.com/yourusername/nursing-vetting-app.git
-cd nursing-vetting-app
+git clone https://github.com/SethWatson91/Nursing_Student_Vetting.git
+cd Nursing\ Student\ Vetting/
 dotnet ef database update
 dotnet run
 ```
