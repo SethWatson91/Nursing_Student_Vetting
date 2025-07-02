@@ -39,16 +39,6 @@ The **Nursing Student Vetting App** allows nursing program administrators to eff
 
 ---
 
-## 🚧 Challenges & Learning
-
-- Applied **Agile principles** using Trello to organize tasks, sprints, and standups  
-- Designed and implemented a **relational database schema** using EF Core  
-- Collaborated using **Git/GitHub**, resolving merge conflicts and writing clear commit history  
-- Learned how to architect a real-world MVC application from scratch  
-- Balanced project scope and time constraints in a team setting
-
----
-
 ## 🚀 Getting Started
 
 > ⚠️ This project is not deployed publicly but can be run locally.
