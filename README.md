@@ -66,3 +66,9 @@ git clone https://github.com/yourusername/nursing-vetting-app.git
 cd nursing-vetting-app
 dotnet ef database update
 dotnet run
+```
+- register user john.doe@example.com
+- Close and Restart app
+- log out and back in
+- select "Manage Users" in the top right
+- remove the student role from john.doe@example.com by pressing "Remove Student" 
